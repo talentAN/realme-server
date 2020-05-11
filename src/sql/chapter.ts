@@ -5,7 +5,7 @@ export const getLatest = ({limit, offset}) => {
   from chapter left join 
   (select "id", num_huged from 
     (select chapterid as "id", count(chapterid) as num_huged from hug group by chapterid) as "hug_table") 
-  as hug_count on chapter.id=hug_count.id OFFSET ${offset} LIMIT ${limit};`;
+  as hug_count on chapter.id=hug_count.id ORDER by publish_date DESC OFFSET ${offset} LIMIT ${limit};`;
 };
 export const getLikes = (chapterid: string) =>
   `SELECT userid from "like" where chapterid= '${chapterid}'`;

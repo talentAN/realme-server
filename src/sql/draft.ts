@@ -16,3 +16,5 @@ export const publishDraft = ({id, title, content, type, auth, last_modified}) =>
   `INSERT INTO "chapter" ("id", "title", "content", "type", "auth", "publish_date") VALUES('${id}', '${title}', '${content}', '${type}', '${auth}', '${last_modified}')`;
 
 export const deleteDraft = (id: string) => `DELETE FROM "draft" where id='${id}'`;
+
+export const countMyDrafts = (id: string) => `select count(*) from "draft" where "auth"='${id}'`;

@@ -1,5 +1,12 @@
 import {Logger, queryDB} from '../utils';
-import {addDraft, updateDraft, queryDraft, publishDraft, deleteDraft} from '../sql/draft';
+import {
+  addDraft,
+  updateDraft,
+  queryDraft,
+  publishDraft,
+  deleteDraft,
+  countMyDrafts,
+} from '../sql/draft';
 
 enum Type {
   Add = 'add',
@@ -7,6 +14,7 @@ enum Type {
   Delete = 'delete',
   Query = 'query',
   Publish = 'publish',
+  Count = 'count',
 }
 export default function draft(router) {
   router.post('/draft', async (ctx, next) => {
@@ -35,6 +43,12 @@ export default function draft(router) {
         result = Array.isArray(result) ? {status: 'success', id} : {status: 'fail'};
         //删除草稿
         await queryDB(id, ctx, deleteDraft);
+        break;
+      case Type.Count:
+        result = await queryDB(user, ctx, countMyDrafts);
+        result = Array.isArray(result)
+          ? {status: 'success', count: result[0].count}
+          : {status: 'fail'};
         break;
       default:
         result = false;
