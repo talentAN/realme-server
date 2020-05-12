@@ -1,6 +1,5 @@
 import {IsNotEmpty, IsString, IsNumber, ValidateNested} from 'class-validator';
 // import {Type} from 'class-transformer';
-import {hots} from '../../mock/Chapter';
 import {Logger, queryDB} from '../utils';
 import {
   getLatest,
@@ -13,6 +12,7 @@ import {
   deleteHug,
   deleteCollect,
   deleteLike,
+  countMyCollects,
 } from '../sql/chapter';
 
 class ChapterReq {
@@ -41,6 +41,7 @@ enum Type {
   CancelLike = 'CancelLike',
   Collect = 'Collect',
   CancelCollect = 'CancelCollect',
+  Count = 'Count',
 }
 
 export default function chapter(router) {
@@ -84,18 +85,27 @@ export default function chapter(router) {
       case Type.Like:
         result = await queryDB({chapterid: id, userid: user}, ctx, insertLike);
         result = Array.isArray(result) ? {status: 'success'} : {status: 'fail'};
+        break;
       case Type.CancelLike:
         result = await queryDB({chapterid: id, userid: user}, ctx, deleteLike);
         result = Array.isArray(result) ? {status: 'success'} : {status: 'fail'};
-
+        break;
       case Type.Collect:
         result = await queryDB({chapterid: id, userid: user}, ctx, insertCollect);
         result = Array.isArray(result) ? {status: 'success'} : {status: 'fail'};
+        break;
       case Type.CancelCollect:
         result = await queryDB({chapterid: id, userid: user}, ctx, deleteCollect);
         result = Array.isArray(result) ? {status: 'success'} : {status: 'fail'};
+        break;
+      case Type.Count:
+        result = await queryDB(user, ctx, countMyCollects);
+        result = Array.isArray(result)
+          ? {status: 'success', count: result[0].count}
+          : {status: 'fail'};
+        break;
       default:
-        result = hots;
+        result = false;
         break;
     }
     ctx.body = result;

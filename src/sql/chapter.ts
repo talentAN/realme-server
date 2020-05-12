@@ -13,12 +13,15 @@ export const insertLike = ({chapterid, userid}) =>
   `INSERT INTO "like" ("id", "chapterid", "userid", "create_date") VALUES('${genID()}', '${chapterid}', '${userid}', '${new Date().toUTCString()}')`;
 export const deleteLike = ({chapterid, userid}) =>
   `delete from "like" where "chapterid"='${chapterid}' and "userid"='${userid}'`;
+
 export const getCollects = (chapterid: string) =>
   `SELECT userid from "collect" where chapterid= '${chapterid}'`;
 export const insertCollect = ({chapterid, userid}) =>
   `INSERT INTO "collect" ("id", "chapterid", "userid", "create_date") VALUES('${genID()}', '${chapterid}', '${userid}', '${new Date().toUTCString()}')`;
 export const deleteCollect = ({chapterid, userid}) =>
   `delete from "collect" where "chapterid"='${chapterid}' and "userid"='${userid}'`;
+export const countMyCollects = (id: string) => `select count(*) from "collect" where "userid"='${id}'`;
+
 export const getHuged = (chapterid: string) =>
   `SELECT userid from "hug" where chapterid= '${chapterid}'`;
 export const insertHug = ({
