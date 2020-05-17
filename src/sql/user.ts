@@ -10,3 +10,5 @@ export const register = ({account, password}) => {
   return `INSERT INTO "user" ("id", "name", "password", nickname, "reg_date")
   VALUES('${id}', '${account}', '${password}', '${account}', '${new Date().toUTCString()}')`;
 };
+
+
