@@ -15,6 +15,6 @@ jobs:
     - name: Docker login
       run:  docker login --username ${{ secrets.DOCKER_USERNAME }} --password ${{ secrets.DOCKER_PWD}}
     - name: Docker Build
-      run: docker build -t 19921229/GenuineMe-server .
+      run: docker build -t 19921229/genuineme-server .
     - name: Docker Push
-      run: docker push 19921229/GenuineMe-server
+      run: docker push 19921229/genuineme-server
