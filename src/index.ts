@@ -55,16 +55,6 @@ Object.keys(routerCreators).forEach(routeKey => {
 // load Routes, it should be the last middleware to load
 app.use(router.routes()).use(router.allowedMethods());
 
-// Successful response:
-// {
-//   "status": "success",
-//   "code": 200,
-//   "data": {
-//     // Application-specific data would go here.
-//   },
-//   "message": null
-// }
-// error message response is in events/error.ts
 app.use((ctx: any) => {
   if (ctx.status === 200) {
     ctx.body = {
@@ -80,6 +70,6 @@ app.use((ctx: any) => {
 export const server: any = app.listen(port, async () => {
   const defaultDB = DB_CONFIG;
   const {id} = await app.context.db.setupClient(defaultDB);
-  Logger(`Liflib api server started at ${port}`);
+  Logger(`Genuineme api server started at ${port}`);
   Logger(`Connected to ${id}`);
 });
